@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysAttendanceMapper">
+
+    <resultMap type="SysAttendance" id="SysAttendanceResult">
+        <result property="absenceId"    column="absence_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysAttendanceVo">
+        select absence_id, user_id, update_time from sys_attendance
+    </sql>
+
+    <select id="selectSysAttendanceList" parameterType="SysAttendance" resultMap="SysAttendanceResult">
+        <include refid="selectSysAttendanceVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+
+    <select id="selectSysAttendanceByAbsenceId" parameterType="Long" resultMap="SysAttendanceResult">
+        <include refid="selectSysAttendanceVo"/>
+        where absence_id = #{absenceId}
+    </select>
+
+    <insert id="insertSysAttendance" parameterType="SysAttendance" useGeneratedKeys="true" keyProperty="absenceId">
+        insert into sys_attendance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysAttendance" parameterType="SysAttendance">
+        update sys_attendance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where absence_id = #{absenceId}
+    </update>
+
+    <delete id="deleteSysAttendanceByAbsenceId" parameterType="Long">
+        delete from sys_attendance where absence_id = #{absenceId}
+    </delete>
+
+    <delete id="deleteSysAttendanceByAbsenceIds" parameterType="String">
+        delete from sys_attendance where absence_id in
+        <foreach item="absenceId" collection="array" open="(" separator="," close=")">
+            #{absenceId}
+        </foreach>
+    </delete>
+
+
+    <select id="countLateTimesByUserId" resultType="int">
+        select count(user_id) from sys_attendance where user_id = #{userId}
+    </select>
+
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysBankMapper">
+    
+    <resultMap type="SysBank" id="SysBankResult">
+        <result property="bankcardId"    column="bankcard_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="beforeTax"    column="before_tax"    />
+        <result property="deduction"    column="deduction"    />
+        <result property="afterTax"    column="after_tax"    />
+    </resultMap>
+
+    <sql id="selectSysBankVo">
+        select bankcard_id, user_name, before_tax, deduction, after_tax from sys_bank
+    </sql>
+
+    <select id="selectSysBankList" parameterType="SysBank" resultMap="SysBankResult">
+        <include refid="selectSysBankVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysBankByBankcardId" parameterType="Long" resultMap="SysBankResult">
+        <include refid="selectSysBankVo"/>
+        where bankcard_id = #{bankcardId}
+    </select>
+        
+    <insert id="insertSysBank" parameterType="SysBank" useGeneratedKeys="true" keyProperty="bankcardId">
+        insert into sys_bank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="beforeTax != null">before_tax,</if>
+            <if test="deduction != null">deduction,</if>
+            <if test="afterTax != null">after_tax,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="beforeTax != null">#{beforeTax},</if>
+            <if test="deduction != null">#{deduction},</if>
+            <if test="afterTax != null">#{afterTax},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysBank" parameterType="SysBank">
+        update sys_bank
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="beforeTax != null">before_tax = #{beforeTax},</if>
+            <if test="deduction != null">deduction = #{deduction},</if>
+            <if test="afterTax != null">after_tax = #{afterTax},</if>
+        </trim>
+        where bankcard_id = #{bankcardId}
+    </update>
+
+
+
+    <delete id="deleteSysBankByBankcardId" parameterType="Long">
+        delete from sys_bank where bankcard_id = #{bankcardId}
+    </delete>
+
+    <delete id="deleteSysBankByBankcardIds" parameterType="String">
+        delete from sys_bank where bankcard_id in 
+        <foreach item="bankcardId" collection="array" open="(" separator="," close=")">
+            #{bankcardId}
+        </foreach>
+    </delete>
+</mapper>

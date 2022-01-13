@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysSalaryMapper">
+    
+    <resultMap type="SysSalary" id="SysSalaryResult">
+        <result property="salaryId"    column="salary_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="bankcardId"    column="bankcard_id"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="income"    column="income"    />
+        <result property="rewards"    column="rewards"    />
+        <result property="cost"    column="cost"    />
+        <result property="beforeTax"    column="before_tax"    />
+    </resultMap>
+
+    <sql id="selectSysSalaryVo">
+        select salary_id, user_id, dept_name, bankcard_id, update_time, income, rewards, cost, before_tax from sys_salary
+    </sql>
+
+    <select id="selectSysSalaryList" parameterType="SysSalary" resultMap="SysSalaryResult">
+        <include refid="selectSysSalaryVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
+            <if test="bankcardId != null "> and bankcard_id = #{bankcardId}</if>
+            <if test="income != null "> and income = #{income}</if>
+            <if test="rewards != null "> and rewards = #{rewards}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysSalaryBySalaryId" parameterType="Long" resultMap="SysSalaryResult">
+        <include refid="selectSysSalaryVo"/>
+        where salary_id = #{salaryId}
+    </select>
+        
+    <insert id="insertSysSalary" parameterType="SysSalary" useGeneratedKeys="true" keyProperty="salaryId">
+        insert into sys_salary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="bankcardId != null">bankcard_id,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="income != null">income,</if>
+            <if test="rewards != null">rewards,</if>
+            <if test="cost != null">cost,</if>
+            <if test="beforeTax != null">before_tax,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="bankcardId != null">#{bankcardId},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="income != null">#{income},</if>
+            <if test="rewards != null">#{rewards},</if>
+            <if test="cost != null">#{cost},</if>
+            <if test="beforeTax != null">#{beforeTax},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysSalary" parameterType="SysSalary">
+        update sys_salary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="bankcardId != null">bankcard_id = #{bankcardId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="income != null">income = #{income},</if>
+            <if test="rewards != null">rewards = #{rewards},</if>
+            <if test="cost != null">cost = #{cost},</if>
+            <if test="beforeTax != null">before_tax = #{beforeTax},</if>
+        </trim>
+        where salary_id = #{salaryId}
+    </update>
+
+    <delete id="deleteSysSalaryBySalaryId" parameterType="Long">
+        delete from sys_salary where salary_id = #{salaryId}
+    </delete>
+
+    <delete id="deleteSysSalaryBySalaryIds" parameterType="String">
+        delete from sys_salary where salary_id in 
+        <foreach item="salaryId" collection="array" open="(" separator="," close=")">
+            #{salaryId}
+        </foreach>
+    </delete>
+
+    <update id="updateBonusByUserId" parameterType="int">
+        update sys_salary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rewards != null">rewards = #{rewards},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+
+    <update id="updateCostByUserId" parameterType="int">
+        update sys_salary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cost != null">cost = #{cost},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+</mapper>
