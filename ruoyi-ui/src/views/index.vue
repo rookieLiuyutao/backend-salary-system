@@ -11,14 +11,14 @@
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/y_project/RuoYi-Vue')"
+            @click="goTarget('https://gitee.com/liuyutaocode/salary-management-system')"
             >访问码云</el-button
           >
           <el-button
             size="mini"
             icon="el-icon-s-home"
             plain
-            @click="goTarget('www.liuyutao666.top')"
+            @click="goTarget('http://www.liuyutao666.top')"
             >访问主页</el-button
           >
         </p>
@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.8.1",
+      version: "1.0.0",
     };
   },
   methods: {

@@ -4,7 +4,7 @@ const { sideTheme, showSettings, topNav, tagsView, fixedHeader, sidebarLogo, dyn
 
 const storageSetting = JSON.parse(localStorage.getItem('layout-setting')) || ''
 const state = {
-  title: '',
+  title: '工资管理系统',
   theme: storageSetting.theme || '#409EFF',
   sideTheme: storageSetting.sideTheme || sideTheme,
   showSettings: showSettings,

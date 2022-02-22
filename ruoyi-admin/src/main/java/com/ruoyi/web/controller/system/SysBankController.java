@@ -127,13 +127,12 @@ public class SysBankController extends BaseController
      * @throws Exception
      */
     @Log(title = "银行", businessType = BusinessType.IMPORT)
-    @PostMapping("/importData")
+    @PostMapping("/importBankData")
     @PreAuthorize("@ss.hasPermi('system:bank:import')")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
     {
         ExcelUtil<SysBank> util = new ExcelUtil<SysBank>(SysBank.class);
         List<SysBank> bankList = util.importExcel(file.getInputStream());
-//        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
         String operaName = getUsername();
         String message = sysBankService.importBankList(bankList, updateSupport, operaName);
         return AjaxResult.success(message);

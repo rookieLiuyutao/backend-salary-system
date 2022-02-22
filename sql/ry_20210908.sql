@@ -1161,7 +1161,7 @@ create table sys_salary
     income      double     not null comment '基础工资',
     rewards     double      default 0 comment '全勤奖金',
     cost        double      default 0 comment '迟到罚款',
-    before_tax  double      default (income - rewards - cost) comment '税前总工资'
+    before_tax  double      default 0 comment '税前总工资'
 ) engine = innodb
   auto_increment = 200 comment = '工资表';
 

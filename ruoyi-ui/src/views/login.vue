@@ -1,7 +1,8 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">校园工资管理系统</h3>
+      <p> 预览用户名：root，密码：654321</p>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -54,10 +55,8 @@
         </div>
       </el-form-item>
     </el-form>
-    <!--  底部  -->
-    <div class="el-login-footer">
-      <span>Copyright © 2018-2021 ruoyi.vip All Rights Reserved.</span>
-    </div>
+
+
   </div>
 </template>
 
@@ -91,7 +90,7 @@ export default {
       // 验证码开关
       captchaOnOff: true,
       // 注册开关
-      register: false,
+      register: true,
       redirect: undefined
     };
   },
@@ -161,7 +160,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
+  background-image: url("https://api.dujin.org/pic/fengjing");
   background-size: cover;
 }
 .title {
