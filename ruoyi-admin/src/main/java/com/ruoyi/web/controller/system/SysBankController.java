@@ -39,6 +39,7 @@ public class SysBankController extends BaseController
     /**
      * 查询银行扣税列表
      */
+
     @PreAuthorize("@ss.hasPermi('system:bank:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysBank sysBank)

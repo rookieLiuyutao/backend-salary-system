@@ -44,7 +44,9 @@ public class CaptchaController
     @GetMapping("/captchaImage")
     public AjaxResult getCode(HttpServletResponse response) throws IOException
     {
+        //接收前端请求
         AjaxResult ajax = AjaxResult.success();
+        //判断是否开启验证码功能
         boolean captchaOnOff = configService.selectCaptchaOnOff();
         ajax.put("captchaOnOff", captchaOnOff);
         if (!captchaOnOff)
@@ -61,10 +63,13 @@ public class CaptchaController
 
         // 生成验证码
         String captchaType = RuoYiConfig.getCaptchaType();
+        //判断要生成那种类型的验证码
         if ("math".equals(captchaType))
         {
             String capText = captchaProducerMath.createText();
+            //图片上显示的计算公式
             capStr = capText.substring(0, capText.lastIndexOf("@"));
+            //正确结果
             code = capText.substring(capText.lastIndexOf("@") + 1);
             image = captchaProducerMath.createImage(capStr);
         }
@@ -73,7 +78,7 @@ public class CaptchaController
             capStr = code = captchaProducer.createText();
             image = captchaProducer.createImage(capStr);
         }
-
+        //将uuid，结果和过期时间放入redis
         redisCache.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
@@ -85,7 +90,7 @@ public class CaptchaController
         {
             return AjaxResult.error(e.getMessage());
         }
-
+        //将uuid传给前端，用来提交表单的时候做验证
         ajax.put("uuid", uuid);
         ajax.put("img", Base64.encode(os.toByteArray()));
         return ajax;

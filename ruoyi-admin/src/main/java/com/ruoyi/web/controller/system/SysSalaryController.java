@@ -140,7 +140,7 @@ public class SysSalaryController extends BaseController
     /**
      * 导出递交给银行的工资列表
      */
-    @PreAuthorize("@ss.hasPermi('system:salary:export')")
+    @PreAuthorize("@ss.hasPermi('system:salary:exportToBank')")
     @Log(title = "递交给银行的表", businessType = BusinessType.EXPORT)
     @PostMapping("/bankExport")
     public void bankExport(HttpServletResponse response, SysSalary sysSalary)
@@ -153,7 +153,7 @@ public class SysSalaryController extends BaseController
     /**
      * 导出递交给银行的工资列表
      */
-    @PreAuthorize("@ss.hasPermi('system:salary:export')")
+    @PreAuthorize("@ss.hasPermi('system:salary:handleLateFine')")
     @Log(title = "填入罚金", businessType = BusinessType.EXPORT)
     @PostMapping("/handleSalary")
     public AjaxResult handleLateFine(SysAttendance sysAttendance,SysSalary sysSalary)
