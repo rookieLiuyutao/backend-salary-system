@@ -197,7 +197,7 @@ insert into sys_menu
 values ('3', '系统工具', '0', '3', 'tool', null, '', 1, 0, 'M', '0', '0', '', 'tool', 'admin', sysdate(), '', null,
         '系统工具目录');
 insert into sys_menu
-values ('4', '若依官网', '0', '4', 'http://ruoyi.vip', null, '', 0, 0, 'M', '0', '0', '', 'guide', 'admin', sysdate(), '',
+values ('4', '若依官网', '0', '4', 'http://yutao.vip', null, '', 0, 0, 'M', '0', '0', '', 'guide', 'admin', sysdate(), '',
         null, '若依官网地址');
 -- 二级菜单
 insert into sys_menu

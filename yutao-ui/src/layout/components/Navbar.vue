@@ -10,7 +10,7 @@
         <search id="header-search" class="right-menu-item" />
 
         <el-tooltip content="作者github" effect="dark" placement="bottom">
-          <tao-gitee id="ruoyi-doc" class="right-menu-item hover-effect" />
+          <tao-gitee id="yutao-doc" class="right-menu-item hover-effect" />
         </el-tooltip>
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
@@ -47,8 +47,8 @@ import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-import taogithub from '@/components/RuoYi/Git'
-import TaoGitee from '@/components/RuoYi/Doc'
+import taogithub from '@/components/YuTao/Git'
+import TaoGitee from '@/components/YuTao/Doc'
 
 export default {
   components: {

@@ -1,7 +1,7 @@
 version : '3'
 services:
-  ruoyi-mysql:
-    container_name: ruoyi-mysql
+  yutao-mysql:
+    container_name: yutao-mysql
     image: mysql:5.7
     build:
       context: .
@@ -23,8 +23,8 @@ services:
     environment:
       MYSQL_DATABASE: 'ry-vue'
       MYSQL_ROOT_PASSWORD: password
-  ruoyi-redis:
-    container_name: ruoyi-redis
+  yutao-redis:
+    container_name: yutao-redis
     image: redis
     build:
       context: .
@@ -32,11 +32,11 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./conf/redis.conf:/home/ruoyi/redis/redis.conf
+      - ./conf/redis.conf:/home/yutao/redis/redis.conf
       - ./redis/data:/data
-    command: redis-server /home/ruoyi/redis/redis.conf
-  ruoyi-nginx:
-    container_name: ruoyi-nginx
+    command: redis-server /home/yutao/redis/redis.conf
+  yutao-nginx:
+    container_name: yutao-nginx
     image: nginx
     build:
       context: .
@@ -44,27 +44,27 @@ services:
     ports:
       - "20008:80"
     volumes:
-      - ./html/dist:/home/ruoyi/projects/ruoyi-ui
+      - ./html/dist:/home/yutao/projects/yutao-ui
       - ./conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/logs:/var/log/nginx
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
-      - ruoyi-server
+      - yutao-server
     links:
-      - ruoyi-server
-  ruoyi-server:
-    container_name: ruoyi-server
+      - yutao-server
+  yutao-server:
+    container_name: yutao-server
     build:
       context: .
-      dockerfile: ruoyi-dockerfile
+      dockerfile: yutao-dockerfile
     ports:
       - "8080:8080"
     volumes:
-      - ./ruoyi/logs:/home/ruoyi/logs
-      - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
+      - ./yutao/logs:/home/yutao/logs
+      - ./yutao/uploadPath:/home/yutao/uploadPath
     depends_on:
-      - ruoyi-mysql
-      - ruoyi-redis
+      - yutao-mysql
+      - yutao-redis
     links:
-      - ruoyi-mysql
-      - ruoyi-redis
+      - yutao-mysql
+      - yutao-redis
