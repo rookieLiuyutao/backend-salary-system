@@ -5,3 +5,47 @@ MAINTAINER yutao
 
 # 执行sql脚本
 ADD ./db/*.sql /docker-entrypoint-initdb.d/
+# 更换阿里源
+COPY ./db/sources.list /etc/apt/sources.list
+# 将阿里源的对应key写入
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
+#更新软件源
+RUN  apt-get clean
+RUN  apt-get update
+#下载vim
+RUN  apt-get -y install vim
+RUN  apt-get -y install openssh-server
+RUN  apt-get -y install tofrodos
+
+#将配置文件写入容器
+RUN echo 'RSAAuthentication yes \n\
+        PubkeyAuthentication yes \n\
+        AuthorizedKeysFile .ssh/authorized_keys \n\
+        PermitRootLogin yes \n\
+        ClientAliveInterval 60'\
+>> /etc/ssh/sshd_config
+
+RUN mkdir /run/sshd
+
+#将开机运行脚本放入容器
+COPY ./db/startup_run.sh /root/startup_run.sh
+
+#修正文件格式
+RUN fromdos /root/startup_run.sh
+
+#添加脚本的运行权限
+RUN chmod +x /root/startup_run.sh
+
+#将bashrc脚本放入容器
+COPY ./db/.bashrc /root/.bashrc
+
+#修正文件格式
+RUN fromdos /root/.bashrc
+
+#添加root用户的密码
+RUN  echo root:lyt958524377394|chpasswd
+CMD ["/bin/bash","/root/startup_run.sh"]
+
+EXPOSE 22

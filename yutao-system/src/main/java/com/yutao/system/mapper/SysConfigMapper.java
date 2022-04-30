@@ -2,12 +2,14 @@ package com.yutao.system.mapper;
 
 import java.util.List;
 import com.yutao.system.domain.SysConfig;
+import org.springframework.stereotype.Component;
 
 /**
  * 参数配置 数据层
  * 
  * @author yutao
  */
+@Component
 public interface SysConfigMapper
 {
     /**

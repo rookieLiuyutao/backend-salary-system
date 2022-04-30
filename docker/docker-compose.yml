@@ -21,8 +21,8 @@ services:
         '--lower-case-table-names=1'
     ]
     environment:
-      MYSQL_DATABASE: 'ry-vue'
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: 'yutao_data'
+      MYSQL_ROOT_PASSWORD: 727520
   yutao-redis:
     container_name: yutao-redis
     image: redis
@@ -56,7 +56,7 @@ services:
     container_name: yutao-server
     build:
       context: .
-      dockerfile: yutao-dockerfile
+      dockerfile: yutaoBackstage-dockerfile
     ports:
       - "8080:8080"
     volumes:
